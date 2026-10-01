@@ -1,0 +1,15 @@
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+sqlalchemy>=2.0,<3
+psycopg[binary]>=3.2,<4
+redis>=5,<6
+celery[redis]>=5.4,<6
+pydantic-settings>=2.5,<3
+bcrypt>=4.2,<6
+PyJWT>=2.9,<3
+email-validator>=2.2,<3
+dnspython>=2.7,<3
+# cryptography 48.x and 49.0.0 had advisories; the 50.x line is the audited fixed range.
+cryptography>=50,<51
+httpx>=0.27,<1
+alembic>=1.13,<2
