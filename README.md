@@ -10,7 +10,7 @@ The foundation provides a React/Vite frontend, FastAPI backend, PostgreSQL, Redi
 
 1. Copy `.env.example` to `.env` and set a strong `POSTGRES_PASSWORD` and `JWT_SECRET_KEY`. Keep the password in `DATABASE_URL` synchronized with `POSTGRES_PASSWORD`.
 2. Run `docker compose up --build`.
-3. Open <http://localhost:5173> and check <http://localhost:8000/health/ready>.
+3. Open the deployed frontend at <https://mellow-lily-b8c9de.netlify.app/> and check the local API at <http://localhost:8000/health/ready>.
 
 The default local values are for development only. Do not use them in a deployed environment.
 
