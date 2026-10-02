@@ -80,3 +80,7 @@ Phase 10 adds a short, optional OpenAI explanation to each scan. Configure `OPEN
 Scan submissions use Redis-backed hourly limits: anonymous callers are limited by the hash of their direct client IP (5/hour by default), signed-in viewers and analysts by account (30/hour), and admins by account (300/hour). Set `SCAN_LIMIT_ANONYMOUS_PER_HOUR`, `SCAN_LIMIT_AUTHENTICATED_PER_HOUR`, or `SCAN_LIMIT_ADMIN_PER_HOUR` in `.env` to adjust these limits. The endpoint fails closed with a temporary-unavailable response if Redis cannot enforce the limit. Forwarded client-IP headers are not trusted.
 
 Special-use hostnames such as `.localhost`, `.local`, `.internal`, `.test`, `.invalid`, and `.onion` do not trigger public DNS, TLS, or redirect lookups. Existing redirect checks continue to require public IPs, standard ports, bounded HEAD requests, and IP-pinned connections. API responses use `no-store`; CORS does not allow credentials because authentication uses bearer tokens. These protections reduce exposure but do not make a scan a safety guarantee.
+
+## 🌐 Live Demo
+
+🚀 [Try LinkShield](https://mellow-lily-b8c9de.netlify.app/)
