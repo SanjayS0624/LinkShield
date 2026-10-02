@@ -45,6 +45,21 @@ def assess_risk(findings: list[dict[str, Any]], scheme: str) -> dict[str, Any]:
                                     else SIGNAL_WEIGHTS.get(finding["title"], 0))
         scored_findings.append(finding)
 
+    # A configured brand appearing on a non-official hostname is a stronger
+    # phishing signal when the URL also contains account/sign-in wording.
+    # Keep the correlation bonus explicit so the score remains explainable.
+    has_brand_match = any(item.get("category") == "BRAND_IMPERSONATION" for item in findings)
+    has_sensitive_action = any(item.get("title") == "Sensitive-action wording in URL" for item in findings)
+    if has_brand_match and has_sensitive_action:
+        scored_findings.append({
+            "category": "COMBINED_SIGNAL",
+            "severity": "HIGH",
+            "title": "Brand impersonation with account-action wording",
+            "description": "A configured brand appears on a non-official hostname alongside sign-in or account-action wording. This combination is more concerning, but does not confirm phishing or malware.",
+            "evidence": "Configured brand match and sensitive-action wording were both detected.",
+            "score_impact": 25,
+        })
+
     if scheme.lower() == "https":
         scored_findings.append({
             "category": "URL_STRUCTURE",
@@ -70,7 +85,7 @@ def assess_risk(findings: list[dict[str, Any]], scheme: str) -> dict[str, Any]:
     else:
         summary = f"Assessed {level.lower()} risk ({score}/100) from the weighted indicators listed below; this is not a verdict."
     calculation = {
-        "method": "Deterministic sum of the listed signal weights, bounded to 0–100.",
+        "method": "Deterministic sum of listed signal weights, including a 25-point bonus when a brand match and sensitive-action wording occur together, bounded to 0–100.",
         "formula": formula,
         "components": components,
         "raw_total": raw_total,
